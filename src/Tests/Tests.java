@@ -1,3 +1,4 @@
+//package Tests;
 import org.hibernate.Metamodel;
 import org.hibernate.Session;
 import org.hibernate.query.Query;

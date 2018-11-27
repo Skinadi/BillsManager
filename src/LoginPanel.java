@@ -66,7 +66,13 @@ public class LoginPanel extends JPanel implements ActionListener{
                 {
                     parent.updatePanel(new UserPanel(parent,user));
                 }
+                else
+                {
+
+                }
             }
+            session.close();
+
         }
         else
         if(source == back)

@@ -43,7 +43,7 @@ public class UserPanel extends JPanel implements ActionListener {
 
         if(source==addfriend)
         {
-
+            parent.updatePanel(new AddFriendPanel(parent,user));
         }
         else
         if(source==logout)
@@ -66,7 +66,7 @@ public class UserPanel extends JPanel implements ActionListener {
         JPanel friendspanel = new JPanel();
         for(int i = 0; i<user.friends.size();i++)
         {
-            buttonsList.add(new JButton());
+            buttonsList.add(new JButton("Rozlicz się !"));
         }
         friendspanel.setLayout(new GridLayout(buttonsList.size()+1,2));
         JLabel name;
