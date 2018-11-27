@@ -1,6 +1,8 @@
 /**
  * Created by skinadi on 03.05.18.
  */
+import org.hibernate.Session;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -55,7 +57,16 @@ public class LoginPanel extends JPanel implements ActionListener{
 
         if(source == signin)
         {
-
+            Session session = HibernateUtil.getSession();
+            String name = getname(nameField);
+            User user = HibernateUtil.findUser(name,session);
+            if(user!=null)
+            {
+                if(getPassword().equals(user.getPassword()))
+                {
+                    parent.updatePanel(new UserPanel(parent,user));
+                }
+            }
         }
         else
         if(source == back)

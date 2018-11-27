@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -13,16 +14,14 @@ public class UserPanel extends JPanel implements ActionListener {
     public static final int HEIGHT = 200;
     public static final int WIDTH = 300;
     MainFrame parent;
-    User1 user1;
-    List <User1> friendList;
+    User user;
     List <JButton> buttonsList;
     JButton addfriend;
     JButton logout;
-    UserPanel(MainFrame parent, User1 user1)
+    UserPanel(MainFrame parent, User user)
     {
         this.parent=parent;
-        this.user1 = user1;
-        friendList = new ArrayList<>();
+        this.user = user;
         buttonsList = new ArrayList<>();
 
         addfriend = new JButton("Add friend");
@@ -49,7 +48,6 @@ public class UserPanel extends JPanel implements ActionListener {
         else
         if(source==logout)
         {
-            friendList.clear();
             buttonsList.clear();
             parent.updatePanel(new LoginPanel(parent));
         }
@@ -66,11 +64,16 @@ public class UserPanel extends JPanel implements ActionListener {
     public void create()
     {
         JPanel friendspanel = new JPanel();
+        for(int i = 0; i<user.friends.size();i++)
+        {
+            buttonsList.add(new JButton());
+        }
         friendspanel.setLayout(new GridLayout(buttonsList.size()+1,2));
         JLabel name;
+        Iterator<User> it = user.friends.iterator();
         for(int i = 0; i<buttonsList.size();i++)
         {
-            name=new JLabel(friendList.get(i).forname);
+            name=new JLabel(it.next().getForname());
             friendspanel.add(name);
             friendspanel.add(buttonsList.get(i));
             buttonsList.get(i).addActionListener(this);

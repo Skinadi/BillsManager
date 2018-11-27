@@ -4,6 +4,8 @@
 /**
  * Created by skinadi on 03.05.18.
  */
+import org.hibernate.Session;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -58,7 +60,21 @@ public class SignUpPanel extends JPanel implements ActionListener{
 
         if(source == signup)
         {
-
+            String email = getname(nameField);
+            Session session = HibernateUtil.getSession();
+            if(HibernateUtil.findUser(email,session)!=null)
+            {
+                komunikat.setText("Same email in database");
+                komunikat.setVisible(true);
+                session.close();
+            }
+            else
+            {
+                HibernateUtil.addUser(email,getname(fornameField),getname(surnameField),getPassword());
+                komunikat.setText("Signing up complete");
+                komunikat.setVisible(true);
+                session.close();
+            }
 
         }
         else
