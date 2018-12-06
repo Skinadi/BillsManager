@@ -24,7 +24,7 @@ public class User
 
     private String password;
 
-    @ManyToMany(cascade = {CascadeType.ALL},fetch=FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.ALL},fetch=FetchType.EAGER)
     @JoinTable(
             name = "Friends" ,
             joinColumns = { @JoinColumn(name = "id")},
@@ -35,15 +35,22 @@ public class User
 
 
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
    /* @JoinTable(
             name = "Transactions" ,
             joinColumns = { @JoinColumn(name = "userid")}
     )*/
-    @JoinColumn(name = "userid")
-
+    //@JoinColumn(name = "userid")
     Set<Transactions> transactions = new HashSet<>();
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Set<Transactions> getTransactions() {
         return transactions;

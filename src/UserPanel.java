@@ -1,3 +1,5 @@
+import org.hibernate.Session;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -33,8 +35,8 @@ public class UserPanel extends JPanel implements ActionListener {
         setLayout(new FlowLayout());
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         create();
-        //this.add(logout);
-        //this.add(addfriend);
+        //this.add(payeverything);
+        //this.add(back);
 
     }
     @Override
@@ -56,7 +58,14 @@ public class UserPanel extends JPanel implements ActionListener {
         {
             if(source==buttonsList.get(i)) //users
             {
-
+                Session session = HibernateUtil.getSession();
+                Iterator<User> it = user.friends.iterator();
+                for(int j = 0; j<i; j++)
+                {
+                    it.next();
+                }
+                parent.updatePanel(new TransactionPanel(parent,user,it.next()));
+                session.close();
             }
         }
 

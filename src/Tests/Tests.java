@@ -24,7 +24,7 @@ public class Tests {
             user1=findUser("lol",session);
             user2=findUser("lil",session);
             user1.friends.add(user2);
-            //user2.friends.add(user1);
+            user2.friends.add(user1);
             session.getTransaction().commit();
         }
         finally {

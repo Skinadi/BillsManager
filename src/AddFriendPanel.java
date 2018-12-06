@@ -71,7 +71,9 @@ public class AddFriendPanel extends JPanel implements ActionListener
                 //user = HibernateUtil.findUser(user.getEmail(),session);
 
                 user.friends.add(potencialfriend);
+                potencialfriend.friends.add(user);
                 session.update(user);
+                session.update(potencialfriend);
                 session.getTransaction().commit();
                 session.close();
             }
