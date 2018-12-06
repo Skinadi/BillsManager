@@ -12,8 +12,8 @@ import java.util.List;
 
 public class TransactionPanel extends JPanel implements ActionListener
 {
-    public static final int HEIGHT = 200;
-    public static final int WIDTH = 300;
+    public static final int HEIGHT = 500;
+    public static final int WIDTH = 500;
     MainFrame parent;
     User user;
     User friend;
@@ -37,7 +37,7 @@ public class TransactionPanel extends JPanel implements ActionListener
         while(it.hasNext())
         {
             temp=it.next();
-            if(temp!=null && temp.getFriendsid()==friend.getId())
+            if(temp!=null && temp.getFriendsid()==friend.getId() && temp.getStatus()!=6)
             {
                 mutualTransactions.add(temp);
             }
@@ -45,6 +45,7 @@ public class TransactionPanel extends JPanel implements ActionListener
         session.close();
         back = new JButton("Back");
         payeverything = new JButton("Pay everything");
+        payeverything.setEnabled(false);
         newTransaction = new JButton("New Transaction");
         back.addActionListener(this);
         payeverything.addActionListener(this);
@@ -82,7 +83,42 @@ public class TransactionPanel extends JPanel implements ActionListener
             {
                 if(source==buttonsList.get(i)) //users
                 {
-
+                    Session session = HibernateUtil.getSession();
+                    Iterator<Transactions> it = user.getTransactions().iterator();
+                    Transactions temp = it.next();
+                    while(it.hasNext() && temp!=mutualTransactions.get(i))
+                    {
+                        temp = it.next();
+                    }
+                    Iterator<Transactions> it1 = friend.getTransactions().iterator();
+                    Transactions temp1 = it1.next();
+                    while(it1.hasNext() && temp1!=mutualTransactions.get(i))
+                    {
+                        temp1 = it1.next();
+                    }
+                    if(temp.getStatus()==1 && temp1.getStatus()==2)
+                    {
+                        temp.setStatus(3);
+                        temp1.setStatus(3);
+                    }
+                    else
+                    if (temp.getStatus()==3 && temp1.getStatus()==3)
+                    {
+                        temp.setStatus(5);
+                        temp1.setStatus(5);
+                    }
+                    else
+                    if(temp.getStatus()==5 && temp1.getStatus()==5)
+                    {
+                        temp.setStatus(6);
+                        temp1.setStatus(6);
+                    }
+                    session.beginTransaction();
+                    session.update(user);
+                    session.update(friend);
+                    session.getTransaction().commit();
+                    session.close();
+                    parent.updatePanel(new TransactionPanel(parent,user,friend));
                 }
             }
 
@@ -97,7 +133,23 @@ public class TransactionPanel extends JPanel implements ActionListener
 
         for(int i = 0; i<mutualTransactions.size(); i++)
         {
-            buttonsList.add(new JButton("Pay"));
+            if(mutualTransactions.get(i).getStatus()==1)
+                buttonsList.add(new JButton("Accept"));
+            else
+                if(mutualTransactions.get(i).getStatus()==3)
+                    buttonsList.add(new JButton("Send Money"));
+                else
+                    if(mutualTransactions.get(i).getStatus()==5)
+                    {
+                        buttonsList.add(new JButton("Accept and Remove"));
+                    }
+            else
+                buttonsList.add(new JButton("boom"));
+            if(!mutualTransactions.get(i).getrestatusable())
+            {
+                buttonsList.get(i).setText("Waiting");
+                buttonsList.get(i).setEnabled(false);
+            }
         }
         for(int i = 0; i<buttonsList.size();i++)
         {

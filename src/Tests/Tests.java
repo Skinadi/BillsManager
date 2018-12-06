@@ -51,7 +51,7 @@ public class Tests {
     @Test
     public void checkiffriendexistsafterexit()
     {
-        addfriend(addUser("lol","Krystian","Koks","silnehaslo"),
+        addfriend(addUser("lol","Krystian","Koks","lol"),
                 addUser("lil","Piotr","Zupa","moc"));
         //addUser("lol","gog","sds","sdasd");
         final Session session = HibernateUtil.getSession();
@@ -67,6 +67,39 @@ public class Tests {
             session.close();
         }
 
+    }
+    @Test
+    public void Transaction()
+    {
+        checkiffriendexistsafterexit();
+        Session session = HibernateUtil.getSession();
+        User user = new User();
+        User friend = new User();
+        user = HibernateUtil.findUser("lol",session);
+        friend = HibernateUtil.findUser("lil",session);
+        session.beginTransaction();
+        Transactions transaction1 = new Transactions();
+        transaction1.setUser(user);
+        transaction1.setFriendsid(friend.getId());
+        transaction1.setTitle("Pizza");
+        transaction1.setCost(30);
+        transaction1.setStatus(2);
+        user.getTransactions().add(transaction1);
+
+
+        Transactions transaction2 = new Transactions();
+        transaction2.setUser(friend);
+        transaction2.setFriendsid(user.getId());
+        transaction2.setTitle("Pizza");
+        transaction2.setCost(-30);
+        transaction2.setStatus(1);
+        friend.getTransactions().add(transaction2);
+
+        session.update(user);
+        session.update(friend);
+        session.getTransaction().commit();
+
+        session.close();
     }
     public User addUser(String email,String forname, String surname, String password) {
         final Session session = HibernateUtil.getSession();

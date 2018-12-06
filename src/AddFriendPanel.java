@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 
 public class AddFriendPanel extends JPanel implements ActionListener
 {
-    public static final int HEIGHT = 200;
-    public static final int WIDTH = 300;
+    public static final int HEIGHT = 500;
+    public static final int WIDTH = 500;
     private JButton addFriend;
     private JButton back;
     private JButton search;

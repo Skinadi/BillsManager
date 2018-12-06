@@ -20,6 +20,18 @@ public class Transactions
     private String title;
     private int status;
 
+    boolean getrestatusable()
+    {
+        if(status==1 || (status==3 && cost>=0) || (status==5 && cost<0))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public int getStatus() {
         return status;
     }

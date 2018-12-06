@@ -35,7 +35,7 @@ public class User
 
 
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL},mappedBy = "user",fetch = FetchType.EAGER)
    /* @JoinTable(
             name = "Transactions" ,
             joinColumns = { @JoinColumn(name = "userid")}

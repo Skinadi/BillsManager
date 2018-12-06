@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 
 public class AddTransactionPanel extends JPanel implements ActionListener
 {
-    public static final int HEIGHT = 200;
-    public static final int WIDTH = 300;
+    public static final int HEIGHT = 500;
+    public static final int WIDTH = 500;
     private JButton sendTransaction;
     private JButton back;
 
@@ -55,21 +55,22 @@ public class AddTransactionPanel extends JPanel implements ActionListener
             transaction1.setFriendsid(friend.getId());
             transaction1.setTitle(title.getText());
             transaction1.setCost(new Integer(cost.getText()));
-            transaction1.setStatus(1);
+            transaction1.setStatus(2);
             user.getTransactions().add(transaction1);
 
 
             Transactions transaction2 = new Transactions();
-            transaction1.setUser(friend);
-            transaction1.setFriendsid(friend.getId());
-            transaction1.setTitle(title.getText());
-            transaction1.setCost(new Integer(cost.getText()) * (-1));
-            transaction1.setStatus(1);
+            transaction2.setUser(friend);
+            transaction2.setFriendsid(user.getId());
+            transaction2.setTitle(title.getText());
+            transaction2.setCost(new Integer(cost.getText()) * (-1));
+            transaction2.setStatus(1);
             friend.getTransactions().add(transaction2);
 
             session.update(user);
             session.update(friend);
             session.getTransaction().commit();
+
             session.close();
             parent.updatePanel(new TransactionPanel(parent,user,friend));
 
