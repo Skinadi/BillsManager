@@ -1,4 +1,5 @@
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity(name = "Transactions")
 public class Transactions
@@ -10,10 +11,17 @@ public class Transactions
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE)
     private int id;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
     @JoinColumn(name = "userid")
     private User user;
 
+    @OneToOne(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "MutualTransactions" ,
+            joinColumns = { @JoinColumn(name = "firstid")},
+            inverseJoinColumns = { @JoinColumn(name = "secondid") }
+    )
+    Transactions mutualtransaction;
     //private int userid;
     private int friendsid;
     private int cost;
@@ -69,6 +77,22 @@ public class Transactions
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Transactions getMutualtransaction() {
+        return mutualtransaction;
+    }
+
+    public void setMutualtransaction(Transactions mutualtransaction) {
+        this.mutualtransaction = mutualtransaction;
     }
 
 }

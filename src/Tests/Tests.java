@@ -84,8 +84,6 @@ public class Tests {
         transaction1.setTitle("Pizza");
         transaction1.setCost(30);
         transaction1.setStatus(2);
-        user.getTransactions().add(transaction1);
-
 
         Transactions transaction2 = new Transactions();
         transaction2.setUser(friend);
@@ -93,6 +91,11 @@ public class Tests {
         transaction2.setTitle("Pizza");
         transaction2.setCost(-30);
         transaction2.setStatus(1);
+
+        transaction1.setMutualtransaction(transaction2);
+        transaction2.setMutualtransaction(transaction1);
+
+        user.getTransactions().add(transaction1);
         friend.getTransactions().add(transaction2);
 
         session.update(user);

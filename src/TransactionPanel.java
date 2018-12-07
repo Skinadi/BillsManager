@@ -92,10 +92,15 @@ public class TransactionPanel extends JPanel implements ActionListener
                     }
                     Iterator<Transactions> it1 = friend.getTransactions().iterator();
                     Transactions temp1 = it1.next();
-                    while(it1.hasNext() && temp1!=mutualTransactions.get(i))
+                    while(it1.hasNext() && temp1.getUser().getId()!=temp.getFriendsid())  // bad
                     {
                         temp1 = it1.next();
                     }
+                    temp1=temp.getMutualtransaction();
+                    System.out.println(temp.getTitle());
+                    System.out.println(temp.getCost());
+                    System.out.println(temp1.getTitle());
+                    System.out.println(temp1.getCost());
                     if(temp.getStatus()==1 && temp1.getStatus()==2)
                     {
                         temp.setStatus(3);
