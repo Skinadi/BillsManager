@@ -1,11 +1,11 @@
-//package Tests;
-import org.hibernate.Metamodel;
+package Tests;
+import Account.HibernateUtil;
+import Account.Transactions;
+import Account.User;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.junit.Assert;
 import org.junit.Test;
-
-import javax.persistence.metamodel.EntityType;
 
 public class Tests {
     @Test
@@ -23,8 +23,8 @@ public class Tests {
             session.beginTransaction();
             user1=findUser("lol",session);
             user2=findUser("lil",session);
-            user1.friends.add(user2);
-            user2.friends.add(user1);
+            user1.getFriends().add(user2);
+            user2.getFriends().add(user1);
             session.getTransaction().commit();
         }
         finally {
@@ -36,7 +36,7 @@ public class Tests {
     public User findUser(String email1,Session session)
     {
         try {
-            String foo = "FROM User E where E.email like :email2";
+            String foo = "FROM Account.User E where E.email like :email2";
             final Query query = session.createQuery(foo);
             query.setParameter("email2",email1);
             //System.out.println("executing: " + query.getQueryString());
@@ -56,12 +56,12 @@ public class Tests {
         //addUser("lol","gog","sds","sdasd");
         final Session session = HibernateUtil.getSession();
         try {
-            //String foo = "FROM User E where E.email like 'lol'";
-            final Query query = session.createQuery("FROM User");
+            //String foo = "FROM Account.User E where E.email like 'lol'";
+            final Query query = session.createQuery("FROM Account.User");
             System.out.println("executing: " + query.getQueryString());
             for (Object o : query.list()) {
                 System.out.println("  " + o.toString());
-                System.out.println(((User)(o)).friends.size());
+                System.out.println(((User)(o)).getFriends().size());
             }
         } finally {
             session.close();
