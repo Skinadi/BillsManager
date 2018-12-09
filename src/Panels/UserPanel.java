@@ -31,7 +31,9 @@ public class UserPanel extends JPanel implements ActionListener {
     UserPanel(MainFrame parent, User user)
     {
         this.parent=parent;
-        this.user = user;
+        Session session = HibernateUtil.getSession();
+        this.user = HibernateUtil.findUser(user.getEmail(),session);
+        session.close();
         buttonsList = new ArrayList<>();
 
         addfriend = new JButton("Add friend");

@@ -18,7 +18,7 @@ Project was created during studies in purpose to manage bills with flatmates.
 * Java 8
 
 ## Setup
-For now the best and the only way is: download files, libraries (JDBC PostgreSQL driver, Hibernate), download PostgreSQL database, install and configure with hibernate.cfg.xml and run Main.java
+ If you want use application just download jar file from releases and run it. If you want to modify app you have to: download files, libraries (JDBC PostgreSQL driver, Hibernate), download PostgreSQL database, install and configure with hibernate.cfg.xml and run Main.java.
 
 ## Features
 List of features ready and TODOs for future development
